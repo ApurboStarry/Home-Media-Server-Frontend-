@@ -54,3 +54,11 @@
 #companyName {
   color: cyan;
 }
+
+#movieDirectoryList {
+  margin-top: 10px;
+  margin: auto;
+  padding-right: 10px;
+  padding-left: 10px;
+  width: 90%;
+}
