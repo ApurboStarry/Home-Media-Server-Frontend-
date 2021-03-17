@@ -26,10 +26,14 @@ class Movies extends Component {
           show={this.state.showModal}
           onHide={() => this.handleCloseButtonOfModal()}
         >
-          <Modal.Header closeButton style={{ color: "red" }}>ERROR</Modal.Header>
+          <Modal.Header closeButton style={{ color: "red" }}>
+            ERROR
+          </Modal.Header>
           <Modal.Body>{this.state.modalText}</Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.handleCloseButtonOfModal()}>Close</Button>
+            <Button onClick={() => this.handleCloseButtonOfModal()}>
+              Close
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -41,7 +45,7 @@ class Movies extends Component {
     console.log("this.state.currentPath", this.state.currentPath);
     console.log("this.props.location.search", this.props.location.search);
 
-    if(this.state.currentPath !== this.props.location.search) {
+    if (this.state.currentPath !== this.props.location.search) {
       try {
         const { data: movies } = await axios.get(
           apiEndpoint + this.props.location.search
@@ -125,6 +129,13 @@ class Movies extends Component {
       if (movie.path.endsWith(".mp4") || movie.path.endsWith(".mkv")) {
         // console.log("Video player should be rendered", movie);
         this.props.history.push("/video-player?filePath=" + movie.path);
+      } else if (
+        movie.path.endsWith(".jpg") ||
+        movie.path.endsWith(".jpeg") ||
+        movie.path.endsWith(".png") ||
+        movie.path.endsWith(".svg")
+      ) {
+        this.props.history.push("/photo-viewer?filePath=" + movie.path);
       } else {
         this.setState({
           showModal: true,

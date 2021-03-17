@@ -105,7 +105,7 @@ class Photos extends Component {
         this.props.history.push("/photo-viewer?filePath=" + photo.path);
       } else if(photo.path.endsWith(".mp4") || photo.path.endsWith(".mkv")) {
         console.log("video player should be rendered");
-        this.props.history.push("/x-video?filePath=" + photo.path);
+        this.props.history.push("/video-player?filePath=" + photo.path);
       } else {
         this.setState({
           showModal: true,
