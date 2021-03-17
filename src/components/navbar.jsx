@@ -33,7 +33,7 @@ class NavBar extends Component {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/photos">
+                <NavLink className="nav-link" to="/photos?filePath=">
                   Photos
                 </NavLink>
               </li>

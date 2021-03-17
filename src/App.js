@@ -6,6 +6,8 @@ import Movies from "./components/movies";
 import Photos from "./components/photos";
 import Musics from "./components/musics";
 import Home from "./components/home";
+import PhotoViewer from './components/photoViewer';
+import SlideShow from './components/slideShow';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/photos" component={Photos} />
           <Route path="/musics" component={Musics} />
           <Route path="/video-player" component={Video} />
+          <Route path="/photo-viewer" component={PhotoViewer} />
+          <Route path="/slideshow" component={SlideShow} />
           <Route path="/" component={Home} />
         </Switch>
       </div>

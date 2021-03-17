@@ -8,8 +8,8 @@ class Video extends Component {
     console.log(this.props.location.search.split("=")[1]);
     return (
       <React.Fragment>
-        <h3 id="wrapText">{getShortNameOfPath(this.props.location.search.split("=")[1])}</h3>
-        <video id="videoPlayer" width="650" controls muted="muted" autoPlay>
+        <p id="wrapText" style={{ marginTop: 10 }}>{getShortNameOfPath(this.props.location.search.split("=")[1])}</p>
+        <video id="videoPlayer" width="1920" controls muted="muted" autoPlay>
           <source
             src={apiEndpoint + this.props.location.search}
             type="video/mp4"

@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { Component } from "react";
+import axios from "axios";
 import { Button, Modal } from "react-bootstrap";
 import getShortNameOfPath from "../util/getShortNameOfPath";
 
@@ -8,40 +8,75 @@ const apiEndpoint = "http://192.168.31.173:8000/x-video";
 class Movies extends Component {
   state = {
     movies: [],
-    currentPath: "",
+    currentPath: "?filePath=",
     showModal: false,
     modalText: "",
   };
 
   handleCloseButtonOfModal = () => {
+    console.log("Inside handleCloseButtonOfModal");
     this.setState({ showModal: false, modalText: "" });
   };
 
   getModal = () => {
-    // console.log("Inside MODAL");
+    console.log("Inside MODAL", this.state);
     return (
       <div>
         <Modal
           show={this.state.showModal}
-          onHide={this.handleCloseButtonOfModal}
+          onHide={() => this.handleCloseButtonOfModal()}
         >
-          <Modal.Header style={{ color: "red" }}>ERROR</Modal.Header>
+          <Modal.Header closeButton style={{ color: "red" }}>ERROR</Modal.Header>
           <Modal.Body>{this.state.modalText}</Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleCloseButtonOfModal}>Close Modal</Button>
+            <Button onClick={() => this.handleCloseButtonOfModal()}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
     );
   };
 
+  async componentDidUpdate() {
+    console.log("INSIDE componentDidUpdate");
+    console.log("this.state.currentPath", this.state.currentPath);
+    console.log("this.props.location.search", this.props.location.search);
+
+    if(this.state.currentPath !== this.props.location.search) {
+      try {
+        const { data: movies } = await axios.get(
+          apiEndpoint + this.props.location.search
+        );
+
+        this.setState({ movies });
+      } catch (e) {
+        if (e.message.includes("Network Error")) {
+          this.setState({
+            showModal: true,
+            modalText: "Server may be out of order",
+          });
+          // console.log("ERROR: Server may be out of order", this.state);
+        } else {
+          this.setState({
+            showModal: true,
+            modalText: "Some unexpected error occured",
+          });
+          // console.log("Something went wrong");
+        }
+
+        // console.log("ERROR: ", e.message);
+      }
+      this.setState({ currentPath: this.props.location.search });
+    }
+  }
+
   async componentDidMount() {
+    console.log("Inside cdm");
     try {
       const { data: movies } = await axios.get(
         apiEndpoint + this.props.location.search
       );
 
-      this.setState({ movies });
+      this.setState({ movies, currentPath: this.props.location.search });
     } catch (e) {
       if (e.message.includes("Network Error")) {
         this.setState({
@@ -62,28 +97,30 @@ class Movies extends Component {
 
   async handleClick(movie) {
     if (movie.type === "directory") {
-      try {
-        const { data: movies } = await axios.get(
-          apiEndpoint + "?filePath=" + movie.path
-        );
+      console.log("HERE");
+      this.props.history.push("/x-video?filePath=" + movie.path);
+      // try {
+      //   const { data: movies } = await axios.get(
+      //     apiEndpoint + "?filePath=" + movie.path
+      //   );
 
-        this.setState({ movies, currentPath: movie.path });
-      } catch (e) {
-        if (e.message.includes("Network Error")) {
-          this.setState({
-            showModal: true,
-            modalText: "Server may be out of order",
-          });
+      //   this.setState({ movies, currentPath: movie.path });
+      // } catch (e) {
+      //   if (e.message.includes("Network Error")) {
+      //     this.setState({
+      //       showModal: true,
+      //       modalText: "Server may be out of order",
+      //     });
 
-          // console.log("ERROR: Server may be out of order");
-        } else {
-          this.setState({
-            showModal: true,
-            modalText: "Some unexpected error occurred",
-          });
-          // console.log("Something went wrong");
-        }
-      }
+      //     // console.log("ERROR: Server may be out of order");
+      //   } else {
+      //     this.setState({
+      //       showModal: true,
+      //       modalText: "Some unexpected error occurred",
+      //     });
+      //     // console.log("Something went wrong");
+      //   }
+      // }
     } else {
       if (movie.path.endsWith(".mp4") || movie.path.endsWith(".mkv")) {
         // console.log("Video player should be rendered", movie);
@@ -145,22 +182,12 @@ class Movies extends Component {
   };
 
   render() {
-    const { movies } = this.state;
-    // console.log(movies);
     return (
       <div>
         {/* <h1>Movies will be displayed here</h1>
         <p>{this.props.location.search}</p> */}
 
         {this.getModal()}
-
-        <button
-          onClick={this.handleGoBack}
-          className="btn btn-success"
-          style={{ marginTop: 20, marginBottom: 20 }}
-        >
-          Go back
-        </button>
 
         <ul id="movieDirectoryList" className="list-group">
           {this.state.movies.map((movie) => {
