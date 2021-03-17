@@ -72,7 +72,10 @@ class SlideShow extends Component {
     const imagesForSlideshow = [];
 
     for (let i = 0; i < photos.length; i++) {
-      if (photos[i].type === "file") {
+      const tokens = photos[i].path.split(".");
+      const extensionName = tokens[tokens.length - 1];
+      const supportedExtensions = ["jpg", "jpeg", "png", "svg"];
+      if (photos[i].type === "file" && supportedExtensions.indexOf(extensionName) > -1) {
         const urlOfPhoto = apiEndpoint + "?filePath=" + photos[i].path;
         imagesForSlideshow.push({
           original: urlOfPhoto,
