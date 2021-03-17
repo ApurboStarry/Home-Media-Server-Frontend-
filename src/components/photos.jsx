@@ -97,6 +97,7 @@ class Photos extends Component {
     } else {
       if (
         photo.path.endsWith(".jpg") ||
+        photo.path.endsWith(".JPG") ||
         photo.path.endsWith(".jpeg") ||
         photo.path.endsWith(".png") ||
         photo.path.endsWith(".svg")
