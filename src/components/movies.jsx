@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Button, Modal } from "react-bootstrap";
 import getShortNameOfPath from "../util/getShortNameOfPath";
+const {ipAddress} = require("../ipAddress.json");
 
-const apiEndpoint = "http://192.168.31.173:8000/x-video";
+const apiEndpoint = `${ipAddress}/x-video`;
 
 class Movies extends Component {
   state = {

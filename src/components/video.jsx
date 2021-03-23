@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import getShortNameOfPath from "../util/getShortNameOfPath";
+const { ipAddress } = require("../ipAddress.json");
 
-const apiEndpoint = "http://192.168.31.173:8000/x-video";
+const apiEndpoint = `${ipAddress}/x-video`;
 class Video extends Component {
   render() {
     console.log(this.props);

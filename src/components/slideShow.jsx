@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import ImageGallery from "react-image-gallery";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
+const { ipAddress } = require("../ipAddress.json");
 
-const apiEndpoint = "http://192.168.31.173:8000/photos";
+const apiEndpoint = `${ipAddress}/photos`;
 
 class SlideShow extends Component {
   state = {

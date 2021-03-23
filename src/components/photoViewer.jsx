@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+const { ipAddress } = require("../ipAddress.json");
 
-const apiEndpoint = "http://192.168.31.173:8000/photos";
-
+const apiEndpoint = `${ipAddress}/photos`;
 class PhotoViewer extends Component {
   state = {};
   render() {
